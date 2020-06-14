@@ -1,50 +1,35 @@
+
+
 /**
  * @fileoverview
  * HTML5 QR code scanning library.
  * - Decode QR Code using web cam or smartphone camera
- * 
+ *
  * @author mebjas <minhazav@gmail.com>
- * 
+ *
  * The word "QR Code" is registered trademark of DENSO WAVE INCORPORATED
  * http://www.denso-wave.com/qrcode/faqpatent-e.html
- * 
+ *
  * Note: ECMA Script is not supported by all browsers. Use minified/html5-qrcode.min.js for better
  * browser support. Alternatively the transpiled code lives in transpiled/html5-qrcode.js
  */
 class Html5Qrcode {
-    //#region static constants
-    static DEFAULT_WIDTH = 300;
-    static DEFAULT_WIDTH_OFFSET = 2;
-    static FILE_SCAN_MIN_HEIGHT = 300;
-    static SCAN_DEFAULT_FPS = 2;
-    static MIN_QR_BOX_SIZE = 50;
-    static SHADED_LEFT = 1;
-    static SHADED_RIGHT = 2;
-    static SHADED_TOP = 3;
-    static SHADED_BOTTOM = 4;
-    static SHADED_REGION_CLASSNAME = "qr-shaded-region";
-    static VERBOSE = false;
-    static BORDER_SHADER_DEFAULT_COLOR = "#ffffff";
-    static BORDER_SHADER_MATCH_COLOR = "rgb(90, 193, 56)";
-    //#endregion
 
     /**
      * Initialize QR Code scanner.
-     * 
-     * @param {String} elementId - Id of the HTML element. 
+     *
+     * @param {String} elementId - Id of the HTML element.
      * @param {Boolean} verbose - Optional argument, if true, all logs
-     *                  would be printed to console. 
+     *                  would be printed to console.
      */
     constructor(elementId, verbose) {
         if (!getLazarSoftScanner) {
-            throw 'Use html5qrcode.min.js without edit, getLazarSoftScanner'
-            + 'not found.';
+            throw "Could not find getLazarSoftScanner";
         }
 
         this.qrcode = getLazarSoftScanner();
         if (!this.qrcode) {
-            throw 'qrcode is not defined, use the minified/html5-qrcode.min.js'
-            + ' for proper support';
+            throw "getLazarSoftScanner is not defined";
         }
 
         this._elementId = elementId;
@@ -63,7 +48,7 @@ class Html5Qrcode {
 
     /**
      * Start scanning QR Code for given camera.
-     * 
+     *
      * @param {String} cameraId Id of the camera to use.
      * @param {Object} config extra configurations to tune QR code scanner.
      *  Supported Fields:
@@ -87,7 +72,7 @@ class Html5Qrcode {
      * @param {Function} qrCodeErrorCallback callback on QR Code parse error.
      *  Example:
      *      function(errorMessage) {}
-     * 
+     *
      * @returns Promise for starting the scan. The Promise can fail if the user
      * doesn't grant permission or some API is not supported by the browser.
      */
@@ -144,7 +129,7 @@ class Html5Qrcode {
         //#region local methods
         /**
          * Setups the UI elements, changes the state of this class.
-         * 
+         *
          * @param width derived width of viewfinder.
          * @param height derived height of viewfinder.
          */
@@ -321,8 +306,8 @@ class Html5Qrcode {
     }
 
     /**
-     * Stops streaming QR Code video and scanning. 
-     * 
+     * Stops streaming QR Code video and scanning.
+     *
      * @returns Promise for safely closing the video stream.
      */
     stop() {
@@ -375,14 +360,14 @@ class Html5Qrcode {
 
     /**
      * Scans an Image File for QR Code.
-     * 
+     *
      * This feature is mutually exclusive to camera based scanning, you should
      * call stop() if the camera based scanning was ongoing.
-     * 
+     *
      * @param {File} imageFile a local file with Image content.
      * @param {boolean} showImage if true the Image will be rendered on given
      * element.
-     * 
+     *
      * @returns Promise with decoded QR code string on success and error message
       *             on failure. Failure could happen due to different reasons:
      *            1. QR Code decode failed because enough patterns not found in
@@ -516,7 +501,7 @@ class Html5Qrcode {
 
     /**
      * Clears the existing canvas.
-     * 
+     *
      * Note: in case of ongoing web cam based scan, it needs to be explicitly
      * closed before calling this method, else it will throw exception.
      */
@@ -526,7 +511,7 @@ class Html5Qrcode {
 
     /**
      * Returns a Promise with list of all cameras supported by the device.
-     * 
+     *
      * The returned object is a list of result object of type:
      * [{
      *      id: String;     // Id of the camera.
@@ -837,15 +822,6 @@ class Html5Qrcode {
  */
 class Html5QrcodeScanner {
 
-    static SCAN_TYPE_CAMERA = "SCAN_TYPE_CAMERA";
-    static SCAN_TYPE_FILE = "SCAN_TYPE_FILE";
-    static STATUS_SUCCESS = "STATUS_SUCCESS";
-    static STATUS_WARNING = "STATUS_WARNING";
-    static STATUS_DEFAULT = "STATUS_DEFAULT";
-
-    static ASSET_FILE_SCAN = "https://raw.githubusercontent.com/mebjas/html5-qrcode/master/assets/file-scan.gif";
-    static ASSET_CAMERA_SCAN = "https://raw.githubusercontent.com/mebjas/html5-qrcode/master/assets/camera-scan.gif";
-
     /**
      * Creates instance of this class.
      *
@@ -867,7 +843,7 @@ class Html5QrcodeScanner {
      *          |********************|
      *          ----------------------
      * @param {Boolean} verbose - Optional argument, if true, all logs
-     *                  would be printed to console. 
+     *                  would be printed to console.
      */
     constructor(elementId, config, verbose) {
         this.elementId = elementId;
@@ -889,14 +865,14 @@ class Html5QrcodeScanner {
 
     /**
      * Renders the User Interface
-     * 
+     *
      * @param {Function} qrCodeSuccessCallback - callback on QR Code found.
      *  Example:
      *      function(qrCodeMessage) {}
      * @param {Function} qrCodeErrorCallback - callback on QR Code parse error.
      *  Example:
      *      function(errorMessage) {}
-     * 
+     *
      */
     render(qrCodeSuccessCallback, qrCodeErrorCallback) {
         const $this = this;
@@ -1426,3 +1402,28 @@ class Html5QrcodeScanner {
     }
     //#endregion
 }
+
+Html5Qrcode.DEFAULT_WIDTH = 300;
+Html5Qrcode.DEFAULT_WIDTH_OFFSET = 2;
+Html5Qrcode.FILE_SCAN_MIN_HEIGHT = 300;
+Html5Qrcode.SCAN_DEFAULT_FPS = 2;
+Html5Qrcode.MIN_QR_BOX_SIZE = 50;
+Html5Qrcode.SHADED_LEFT = 1;
+Html5Qrcode.SHADED_RIGHT = 2;
+Html5Qrcode.SHADED_TOP = 3;
+Html5Qrcode.SHADED_BOTTOM = 4;
+Html5Qrcode.SHADED_REGION_CLASSNAME = "qr-shaded-region";
+Html5Qrcode.VERBOSE = false;
+Html5Qrcode.BORDER_SHADER_DEFAULT_COLOR = "#ffffff";
+Html5Qrcode.BORDER_SHADER_MATCH_COLOR = "rgb(90, 193, 56)";
+
+Html5QrcodeScanner.SCAN_TYPE_CAMERA = "SCAN_TYPE_CAMERA";
+Html5QrcodeScanner.SCAN_TYPE_FILE = "SCAN_TYPE_FILE";
+Html5QrcodeScanner.STATUS_SUCCESS = "STATUS_SUCCESS";
+Html5QrcodeScanner.STATUS_WARNING = "STATUS_WARNING";
+Html5QrcodeScanner.STATUS_DEFAULT = "STATUS_DEFAULT";
+Html5QrcodeScanner.ASSET_FILE_SCAN = "https://raw.githubusercontent.com/mebjas/html5-qrcode/master/assets/file-scan.gif";
+Html5QrcodeScanner.ASSET_CAMERA_SCAN = "https://raw.githubusercontent.com/mebjas/html5-qrcode/master/assets/camera-scan.gif";
+
+module.exports.Html5Qrcode = Html5Qrcode;
+module.exports.Html5QrcodeScanner = Html5QrcodeScanner;
